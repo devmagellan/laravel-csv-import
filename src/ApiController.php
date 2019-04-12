@@ -16,5 +16,6 @@ class ApiController extends Controller
         dump($request->file('csv'));
 
         $csv = CsvReader::createFromPath($path, 'r');
+        dump($csv->getHeader());
     }
 }
