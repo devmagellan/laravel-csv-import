@@ -35,6 +35,7 @@ class WidgetServiceProvider extends ServiceProvider
          * app\Widgets\view
          */
         $this->loadViewsFrom(app_path() .'/Widgets/views', 'Widgets');
+        include __DIR__.'/routes.php';
 
     }
 
