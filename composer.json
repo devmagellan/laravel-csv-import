@@ -1,0 +1,27 @@
+{
+  "name": "imediasun/laravel-csv-import",
+  "description": "Package for using widgets in Laravel-5",
+  "type": "library",
+  "keywords": [
+    "laravel",
+    "widgets"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "LopushanskyAndrey",
+      "email": "imediasun@gmail.com",
+      "homepage": "https://github.com/imediasun/laravel-csv-import",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Klisl\\Widgets\\": "src"
+    }
+  }
+}
