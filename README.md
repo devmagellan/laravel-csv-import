@@ -23,6 +23,12 @@ You can publish the migration with:
 php artisan vendor:publish --provider="Imediasun\Widgets\WidgetServiceProvider" --tag="migrations"
 ```
 
+To check, add to any template that you are going to display, for example, the line in the resources \ views \ welcome.blade.php:
+
+```
+@widget('test')
+```
+
 
 
 
