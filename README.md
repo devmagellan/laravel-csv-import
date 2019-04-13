@@ -17,10 +17,15 @@ manually add the service provider in your config/app.php file:
     Imediasun\Widgets\WidgetServiceProvider::class,
 ];
 ```
-You can publish the migration with:
+You can publish the package with:
 
 ```
-php artisan vendor:publish --provider="Imediasun\Widgets\WidgetServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Imediasun\Widgets\WidgetServiceProvider" 
+```
+Also you need run migrate in Laravel:
+
+```
+php artisan migrate
 ```
 After that you need to set widget config variables in congig/widgets.php:
 
@@ -52,6 +57,8 @@ $result = $importer->process();
 ## Description
 this package can add values to the database by defining names in the header of CSV file
 If csv didnt contains header this package will catch exception and you will receive exception message
+For simple import sample file you can find in root folder of the package customers.csv
+Also Package use Laravel Queue and you need to set up them on your Laravel project
 
 
 
