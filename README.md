@@ -22,7 +22,7 @@ You can publish the migration with:
 ```
 php artisan vendor:publish --provider="Imediasun\Widgets\WidgetServiceProvider" --tag="migrations"
 ```
-After that you need to set widget config variables:
+After that you need to set widget config variables in congig/widgets.php:
 
 ```php
 return [
