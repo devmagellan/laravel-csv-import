@@ -58,6 +58,7 @@ $result = $importer->process();
 this package can add values to the database by defining names in the header of CSV file
 If csv didnt contains header this package will catch exception and you will receive exception message
 For simple import sample file you can find in root folder of the package customers.csv
+Also Package use Laravel Queue and you need to set up them on your Laravel project
 
 
 
