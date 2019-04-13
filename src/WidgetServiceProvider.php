@@ -22,9 +22,7 @@ class WidgetServiceProvider extends ServiceProvider
 
         /*
          * Регистрируется директива для шаблонизатора Blade
-         * Пример обращения к виджету: @widget('menu')
-         * Можно передать параметры в виджет:
-         * @widget('menu', [$data1,$data2...])
+         * Пример обращения к виджету: @widget('test')
         */
         Blade::directive('widget', function ($name) {
             return "<?php echo app('widget')->show($name); ?>";
@@ -35,6 +33,13 @@ class WidgetServiceProvider extends ServiceProvider
          * app\Widgets\view
          */
         $this->loadViewsFrom(app_path() .'/Widgets/views', 'Widgets');
+        /*
+       * Регистрируется (добавляем) миграцию для виджета
+       */
+        $this->loadMigrationsFrom(__DIR__.'/../app/Widgets/migrations');
+        /*
+     * Добавляем роуты для виджета
+     */
         include __DIR__.'/routes.php';
 
     }
