@@ -22,6 +22,16 @@ You can publish the migration with:
 ```
 php artisan vendor:publish --provider="Imediasun\Widgets\WidgetServiceProvider" --tag="migrations"
 ```
+After that you need to set widget config variables:
+
+```php
+return [
+
+    // ...
+    'csv_import_recepient'=>'imediasun@gmail.com',
+    'csv_import_sender'=>['address'=>'imediasu1n@gmail.com','name'=>'Andrey'],
+];
+```
 
 To check, add to any template that you are going to display, for example, the line in the resources \ views \ welcome.blade.php:
 
