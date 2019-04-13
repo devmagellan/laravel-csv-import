@@ -20,7 +20,12 @@ manually add the service provider in your config/app.php file:
 You can publish the migration with:
 
 ```
-php artisan vendor:publish --provider="Imediasun\Widgets\WidgetServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Imediasun\Widgets\WidgetServiceProvider" 
+```
+Also you need run this command in Laravel:
+
+```
+php artisan migrate
 ```
 After that you need to set widget config variables in congig/widgets.php:
 
