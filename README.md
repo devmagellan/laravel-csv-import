@@ -60,5 +60,6 @@ If csv didnt contains header this package will catch exception and you will rece
 For simple import sample file you can find in root folder of the package customers.csv
 Also Package use Laravel Queue and you need to set up them on your Laravel project
 
-
+## Tests
+There is a test folder in app/Widgets dirrectory You can set up your PhpStorm or other IDE that you use to run test that this folder conteins
 
