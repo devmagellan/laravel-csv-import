@@ -64,7 +64,7 @@ class ApiController extends Controller
 
             }
             Queue::push(new PutCsvToDbSingle($res_fill));
-
+            return true;
 
 
         }

@@ -1,6 +1,6 @@
 <?php
 use Imediasun\Widgets\ApiController as Import;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class Test extends TestCase
 {
@@ -12,9 +12,8 @@ class Test extends TestCase
     public function testBasicTest()
     {
 
-
         $importer = new Import();
-        $importer->setSource('customers.csv');
+        $importer->setSource(app_path('/Widgets/Tests/customers.csv'));
         $result = $importer->process();
         $this->assertTrue($result);
     }
