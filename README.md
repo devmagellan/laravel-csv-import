@@ -58,7 +58,18 @@ $result = $importer->process();
 this package can add values to the database by defining names in the header of CSV file
 If csv didnt contains header this package will catch exception and you will receive exception message
 For simple import sample file you can find in root folder of the package customers.csv
-Also Package use Laravel Queue and you need to set up them on your Laravel project
+Also Package use Laravel Queue and you need to set up them on your Laravel project.
+To receive success and error emails you need to configure your mail server in .env file
+For Example like this
+
+```
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=mail@gmail.com
+MAIL_PASSWORD=Password
+MAIL_ENCRYPTION=tls
+```
 
 ## Tests
 There is a test folder in app/Widgets dirrectory You can set up your PhpStorm or other IDE that you use to run test that this folder conteins
