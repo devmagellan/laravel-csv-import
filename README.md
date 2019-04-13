@@ -38,7 +38,16 @@ To check, add to any template that you are going to display, for example, the li
 ```
 @widget('test')
 ```
+You can see Log files after laravel Queues jobs will proceed in storage/logs/csv_import_exception.log
 
+Also you can use this package in your code in such format:
+
+```php
+use Imediasun\Widgets\ApiController as Import;
+$importer = new Import();
+$importer->setSource('path_to_csv_file');
+$result = $importer->process();
+```
 
 
 
