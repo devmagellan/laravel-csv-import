@@ -17,12 +17,12 @@ manually add the service provider in your config/app.php file:
     Imediasun\Widgets\WidgetServiceProvider::class,
 ];
 ```
-You can publish the migration with:
+You can publish the package with:
 
 ```
 php artisan vendor:publish --provider="Imediasun\Widgets\WidgetServiceProvider" 
 ```
-Also you need run this command in Laravel:
+Also you need run migrate in Laravel:
 
 ```
 php artisan migrate
