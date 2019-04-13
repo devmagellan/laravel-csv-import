@@ -76,7 +76,7 @@ class ApiController extends Controller
             $orderLog = new Logger('files');
             $orderLog->pushHandler(new StreamHandler(storage_path('logs/csv_import_exceptions.log')), Logger::INFO);
             $orderLog->info('CsvImportLog', $log);
-            Queue::push(new SendErrorMessage($e->getMessage()));
+            Queue::push(new SendErrorMessage(mb_convert_encoding(trim($e->getMessage()), 'UTF-8', mb_detect_encoding(trim($e->getMessage()), 'UTF-8, ISO-8859-1', true))));
             dump('Error:look to email and log file for details',$e->getMessage());
         }
 
