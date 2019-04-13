@@ -57,6 +57,7 @@ $result = $importer->process();
 ## Description
 this package can add values to the database by defining names in the header of CSV file
 If csv didnt contains header this package will catch exception and you will receive exception message
+For simple import sample file you can find in root folder of the package customers.csv
 
 
 
