@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\DB;
 class ApiController extends Controller
 {
 
-    public $source;
+    protected $source;
 
     public function processFromForm(){
 
