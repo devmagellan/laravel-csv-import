@@ -8,6 +8,6 @@
 return [
 
     'test' => 'App\Widgets\TestWidget',
-    'csv_import_recepient'=>'imediasun@gmail.com',
-    'csv_import_sender'=>['address'=>'imediasu1n@gmail.com','name'=>'Andrey'],
+    'csv_import_recepient'=>'',
+    'csv_import_sender'=>['address'=>'','name'=>''],
 ];
