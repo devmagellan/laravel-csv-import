@@ -103,6 +103,7 @@ class ApiController extends Controller
 
             }
             $res_validator=$this->sortArrayByArray($this->validators, $res_fill[0]);
+            //Validation of data
             foreach($res_fill as $key=>$value){
                 $validator = Validator::make($value, $res_validator);
                 if ($validator->fails())
@@ -113,7 +114,7 @@ class ApiController extends Controller
                     $result[]=$value;
                 }
             }
-            //Validation of data
+
             Queue::push(new PutCsvToDbSingle($result));
             dump('data loaded successfully');
 
