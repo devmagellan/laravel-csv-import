@@ -3,18 +3,12 @@
 namespace Imediasun\Widgets;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use \League\Csv\Reader as CsvReader;
 use Mockery\Exception;
 use Illuminate\Support\Facades\Queue;
 use \Imediasun\Widgets\Jobs\PutCsvToDbSingle;
-use \Imediasun\Widgets\Jobs\SendErrorMessage;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 
+use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
 {
@@ -23,6 +17,7 @@ class ApiController extends Controller
     protected $paramFields;
     protected $validators;
     protected $table;
+    protected $headerError='One ore Few columns in header of csv didnt math input names in configureFields function';
 
     public function processFromForm(){
 
@@ -56,23 +51,13 @@ class ApiController extends Controller
     }
 
 
-
     public function process(){
-        $csv = CsvReader::createFromStream($this->source);
-        $csv->setHeaderOffset(0); //set the CSV header
-        $csv->setDelimiter(';');
-        $csv->getHeader();  //returns the CSV header record
-        try{$csv->getRecords();
-
-            $res_fields=$this->paramFields;
-            foreach($csv->getHeader() as $k=>$column){
-                $header[$k]=strtolower($column);
-            }
-
-            foreach ($csv as $key=>$record) {$fill[]=$record;}
-
-            foreach($res_fields as $key=>$input_field){
-                if(in_array(strtolower($key),$header)){
+        //Get Csv
+        $csv=WidgetHelper::getCsv($this->source);
+        try{
+            //input mapping
+            foreach($this->paramFields as $key=>$input_field){
+                if(in_array(strtolower($key),$csv['header'])){
                     $res_column[$key]=$input_field;
                 }
                 else{
@@ -80,21 +65,14 @@ class ApiController extends Controller
                 }
 
             }
-            $header_validator=$this->validateHeader($res_column);
             //validation of header
-            if(!$header_validator)
+            if(!WidgetHelper::validateHeader($res_column,$this->validators))
             {
-                $log = ['date' => date("Y-m-d H:i:s"),
-                    'error' => 'One ore Few columns in header of csv didnt math input names in configureFields function'];
-
-                $orderLog = new Logger('files');
-                $orderLog->pushHandler(new StreamHandler(storage_path('logs/csv_import_exceptions.log')), Logger::INFO);
-                $orderLog->info('CsvImportLog', $log);
-                Queue::push(new SendErrorMessage(mb_convert_encoding(trim($log['error']), 'UTF-8', mb_detect_encoding(trim($log['error']), 'UTF-8, ISO-8859-1', true))));
-                dd('Error:look to email and log file for details',$log['error']);
+                WidgetHelper::notification($this->headerError);
+                dd('Error:look to email and log file for details',$this->headerError);
             }
-            $res_header=$csv->getHeader();
-            foreach($fill as $key=>$value){
+            //get mapping data
+            foreach($csv['fill'] as $key=>$value){
                 foreach($value as $k=>$res){
                     if(in_array(strtolower($k),$this->paramFields)){
                         $res_fill[$key][strtolower($k)]=$res;
@@ -102,7 +80,8 @@ class ApiController extends Controller
                 }
 
             }
-            $res_validator=$this->sortArrayByArray($this->validators, $res_fill[0]);
+            //sort validators
+            $res_validator=WidgetHelper::sortArrayByArray($this->validators, $res_fill[0]);
             //Validation of data
             foreach($res_fill as $key=>$value){
                 $validator = Validator::make($value, $res_validator);
@@ -123,39 +102,12 @@ class ApiController extends Controller
 
         }
         catch(\Exception $e){
-
-            $log = ['date' => date("Y-m-d H:i:s"),
-                'error' => $e->getMessage()];
-
-            $orderLog = new Logger('files');
-            $orderLog->pushHandler(new StreamHandler(storage_path('logs/csv_import_exceptions.log')), Logger::INFO);
-            $orderLog->info('CsvImportLog', $log);
-            Queue::push(new SendErrorMessage(mb_convert_encoding(trim($e->getMessage()), 'UTF-8', mb_detect_encoding(trim($e->getMessage()), 'UTF-8, ISO-8859-1', true))));
+            WidgetHelper::notification($e->getMessage());
             dump('Error:look to email and log file for details',$e->getMessage());
         }
 
     }
-    protected function sortArrayByArray(array $array, array $orderArray) {
-        $new_arr = array();
-        foreach ($orderArray as $key => $val){
-            $new_arr +=
-                [
-                    strtolower($key) => $array[strtolower($key)]
-                ];
-        }
-        return $new_arr;
-    }
 
-
-    protected function validateHeader($array){
-        foreach($array as $k=>$v){
-            foreach($this->validators as $key=>$value){
-                if($v==null && (strpos($value, 'required') !== false) ){return false;}
-                else{$rules[$key]=false;}
-            }
-        }
-        return true;
-    }
 
 
 }
