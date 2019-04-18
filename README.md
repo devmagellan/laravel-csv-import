@@ -50,7 +50,14 @@ Also you can use this package in your code in such format:
 ```php
 use Imediasun\Widgets\ApiController as Import;
 $importer = new Import();
-$importer->setSource('path_to_csv_file');
+$importer->setDestination('customers');
+$importer->setSource(storage_path('app/csv/zIZSaoFkwDMY2Jchp9AOYanBFvL2mfcKfalbn4uI.csv'));
+    $importer->configureFields([
+        'Name'=>['field'=>'name','validators'=>'required|max:255'],
+        'Email'=>['field'=>'email','validators'=>'required|email'],
+        'Telefon'=>['field'=>'telefon','validators'=>'max:10']
+
+    ]);
 $result = $importer->process();
 ```
 
