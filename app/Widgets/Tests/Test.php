@@ -13,7 +13,15 @@ class Test extends TestCase
     {
 
         $importer = new Import();
+        $importer->setDestination('customers');
         $importer->setSource(app_path('/Widgets/Tests/customers.csv'));
+        $importer->configureFields([
+            'Name'=>['field'=>'name','validators'=>'required|max:255'],
+            'Email'=>['field'=>'email','validators'=>'required|email'],
+            'Telefon'=>['field'=>'telefon','validators'=>'max:10']
+
+        ]);
+
         $result = $importer->process();
         $this->assertTrue($result);
     }
